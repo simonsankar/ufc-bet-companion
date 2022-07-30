@@ -20,7 +20,7 @@ import {
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 import { ColourMode } from './colourMode'
 
-const Links = ['Dashboard', 'Projects', 'Team']
+const Links = ['Upcoming', 'Past Events']
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link

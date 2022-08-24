@@ -1,6 +1,8 @@
 import { load } from 'cheerio'
 
-type Fight = {
+export type Fight = {
+  id: string
+  bout: string
   redCorner: {
     firstName: string
     lastName: string
@@ -13,14 +15,14 @@ type Fight = {
     lastName: string
     rank: string
     odds: number
+    outcome: string
   }
-  bout: string
 }
 
 export type MainCard = {
   id: string
   title: string
-  timeStamp: number
+  timestamp: number
   fights: Fight[]
 }
 
@@ -42,7 +44,7 @@ export const getMainCard = async (): Promise<MainCard> => {
   const $event = load(eventHtml)
 
   const title = $event('div.c-hero__headline-prefix').first().text().trim()
-  const timeStamp = parseInt(
+  const timestamp = parseInt(
     $event('div.c-hero__headline-suffix.tz-change-inner').first().attr()?.[
       'data-timestamp'
     ] || '0'
@@ -101,12 +103,7 @@ export const getMainCard = async (): Promise<MainCard> => {
         .text()
         .trim()
       const blueCornerOdds: number = parseInt(
-        content
-          .find('span.c-listing-fight__odds-amount')
-          .next()
-          .next()
-          .text()
-          .trim()
+        content.find('span.c-listing-fight__odds-amount').last().text().trim()
       )
       const blueOutcome: string = content
         .find(
@@ -116,9 +113,17 @@ export const getMainCard = async (): Promise<MainCard> => {
         .text()
         .trim()
 
-      const bout: string = content.find('.c-listing-fight__class').text().trim()
+      const bout: string = content
+        .find('.c-listing-fight__class-text')
+        .text()
+        .trim()
 
       return {
+        id:
+          redCornerLastName.toLowerCase() +
+          '-' +
+          blueCornerLastName.toLowerCase(),
+        bout,
         redCorner: {
           firstName: redCornerFirstName,
           lastName: redCornerLastName,
@@ -133,8 +138,6 @@ export const getMainCard = async (): Promise<MainCard> => {
           odds: blueCornerOdds,
           outcome: blueOutcome,
         },
-
-        bout,
       }
     })
     .get()
@@ -142,7 +145,7 @@ export const getMainCard = async (): Promise<MainCard> => {
   return {
     id,
     title,
-    timeStamp,
+    timestamp,
     fights: mainCardList,
   }
 }

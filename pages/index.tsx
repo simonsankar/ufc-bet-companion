@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import { Box, Flex, Heading } from '@chakra-ui/react'
 import { NavBar } from '../components/navbar'
 import { getMainCard, MainCard } from '../scraper'
+import { upsertCurrentEvent } from '../scraper/hydrate'
 
 const Home: NextPage<MainCard> = (props) => {
   return (
@@ -18,7 +19,8 @@ const Home: NextPage<MainCard> = (props) => {
 export default Home
 
 export const getServerSideProps = async () => {
-  const mainCard = await getMainCard()
+  const mainCard = await upsertCurrentEvent()
+
   return {
     props: mainCard,
   }

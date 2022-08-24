@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id        String @id
+  title     String
+  timestamp Int
+
+  Fight Fight[]
+}
+
+model Fight {
+  id                  String
+  eventId             String
+  Event               Event  @relation(fields: [eventId], references: [id])
+  bout                String
+  redCornerFirstName  String
+  redCornerLastName   String
+  redCornerRank       String
+  redCornerOdds       Int
+  redCornerOutcome    String
+  blueCornerFirstName String
+  blueCornerLastName  String
+  blueCornerRank      String
+  blueCornerOdds      Int
+  blueCornerOutcome   String
+
+  @@id([id, eventId])
+}

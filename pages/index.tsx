@@ -75,20 +75,10 @@ const Home: NextPage<MainCard> = (props) => {
               </Flex>
               {/* Fighters */}
               <Flex width="100%">
-                <Heading
-                  flex="1"
-                  size="2xl"
-                  textTransform="uppercase"
-                  textAlign="left"
-                >
+                <Heading flex="1" textTransform="uppercase" textAlign="left">
                   {fight.redCorner.lastName}
                 </Heading>
-                <Heading
-                  flex="1"
-                  size="2xl"
-                  textTransform="uppercase"
-                  textAlign="center"
-                >
+                <Heading flex="1" textTransform="uppercase" textAlign="center">
                   vs
                 </Heading>
                 <Heading flex="1" textTransform="uppercase" textAlign="right">

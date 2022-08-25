@@ -22,6 +22,7 @@ export type Fight = {
 export type MainCard = {
   id: string
   title: string
+  poster: string
   timestamp: number
   fights: Fight[]
 }
@@ -44,6 +45,11 @@ export const getMainCard = async (): Promise<MainCard> => {
   const $event = load(eventHtml)
 
   const title = $event('div.c-hero__headline-prefix').first().text().trim()
+  const posters = $event(
+    '#block-mainpagecontent > div > div.c-hero > div > div > div > picture > source:nth-child(1)'
+  ).attr('srcset')
+  const poster = posters ? posters.substring(0, posters.indexOf(' ')) : ''
+  console.log(poster)
   const timestamp = parseInt(
     $event('div.c-hero__headline-suffix.tz-change-inner').first().attr()?.[
       'data-timestamp'
@@ -115,6 +121,7 @@ export const getMainCard = async (): Promise<MainCard> => {
 
       const bout: string = content
         .find('.c-listing-fight__class-text')
+        .first()
         .text()
         .trim()
 
@@ -145,6 +152,7 @@ export const getMainCard = async (): Promise<MainCard> => {
   return {
     id,
     title,
+    poster,
     timestamp,
     fights: mainCardList,
   }

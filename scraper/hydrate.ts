@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 export const upsertCurrentEvent = async (): Promise<MainCard> => {
   const mainCard = await getMainCard()
 
-  const { id, title, timestamp } = await prisma.event.upsert({
+  const { id, title, timestamp, poster } = await prisma.event.upsert({
     where: { id: mainCard.id },
     update: {
       title: mainCard.title,
@@ -15,6 +15,7 @@ export const upsertCurrentEvent = async (): Promise<MainCard> => {
     create: {
       id: mainCard.id,
       title: mainCard.title,
+      poster: mainCard.poster,
       timestamp: mainCard.timestamp,
     },
   })
@@ -81,6 +82,7 @@ export const upsertCurrentEvent = async (): Promise<MainCard> => {
   return {
     id,
     title,
+    poster,
     timestamp,
     fights: updatedFights.length ? updatedFights : mainCard.fights,
   }

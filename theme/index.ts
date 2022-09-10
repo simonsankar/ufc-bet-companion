@@ -3,7 +3,7 @@ import { mode } from '@chakra-ui/theme-tools'
 
 export const theme = extendTheme({
   fonts: {
-    heading: `'Trigot', Arial, Helvetica, sans-serif`,
+    heading: `'Montserrat', sans-serif`,
     body: `'Overpass', sans-serif`,
   },
   colors: {

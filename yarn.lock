@@ -758,6 +758,11 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@fontsource/montserrat@^4.5.12":
+  version "4.5.12"
+  resolved "https://registry.yarnpkg.com/@fontsource/montserrat/-/montserrat-4.5.12.tgz#465c61fb508f6d0055dbcbfbc6eb7307a81fdf6f"
+  integrity sha512-UQ+4ijm1sddIBtmEZ9bKgCB1rSi4Imog0YKz7wDLtMQ3Mw2ZaBseTgoLDfbWnfdowS0PLp+Z4T2KZ/1AySTlDQ==
+
 "@fontsource/overpass@^4.5.8":
   version "4.5.8"
   resolved "https://registry.yarnpkg.com/@fontsource/overpass/-/overpass-4.5.8.tgz#7117955fa0d4e8cc3a1cc5012a7c6cd1037cbc20"

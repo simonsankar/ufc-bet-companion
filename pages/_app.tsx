@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { theme } from '../theme'
 import '../theme/index.css'
 import '@fontsource/overpass/500.css'
+import '@fontsource/montserrat/500.css'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (

@@ -38,9 +38,10 @@ export const getMainCard = async (): Promise<MainCard> => {
     throw new Error('No next event link found')
   }
 
-  const id = nextEventLink.replace('https://www.ufc.com/event/', '')
-  const eventResp = await fetch(nextEventLink)
-  // const eventResp = await fetch('https://www.ufc.com/event/ufc-276')
+  // const id = nextEventLink.replace('https://www.ufc.com/event/', '')
+  // const eventResp = await fetch(nextEventLink)
+  const id = 'ufc-1'
+  const eventResp = await fetch(`https://www.ufc.com/event/${id}`)
   const eventHtml = await eventResp.text()
   const $event = load(eventHtml)
 
@@ -62,23 +63,30 @@ export const getMainCard = async (): Promise<MainCard> => {
     .map((i, el) => {
       const content = $event(el).find('.c-listing-fight__content').first()
       // Red corner
-      const redCornerRank: string = content
+      const redContent = content
+        .find('.c-listing-fight__corner-name.c-listing-fight__corner-name--red')
+        .first()
+
+      const redCornerRank: string = redContent
         .find(
           '.js-listing-fight__corner-rank.c-listing-fight__corner-rank > span'
         )
         .first()
         .text()
         .trim()
-      const redCornerFirstName: string = content
+
+      const redCornerName: string = redContent.text().trim()
+      const redCornerFirstName: string = redContent
         .find('.c-listing-fight__corner-given-name')
         .first()
         .text()
         .trim()
-      const redCornerLastName: string = content
+      const redCornerLastName: string = redContent
         .find('.c-listing-fight__corner-family-name')
         .first()
         .text()
         .trim()
+
       const redCornerOdds: number = parseInt(
         content.find('span.c-listing-fight__odds-amount').first().text().trim()
       )
@@ -90,24 +98,33 @@ export const getMainCard = async (): Promise<MainCard> => {
         .text()
         .trim()
 
-      // Red corner
-      const blueCornerRank: string = content
+      // Blue corner
+      const blueContent = content
+        .find(
+          '.c-listing-fight__corner-name.c-listing-fight__corner-name--blue'
+        )
+        .first()
+
+      const blueCornerRank: string = blueContent
         .find(
           '.js-listing-fight__corner-rank.c-listing-fight__corner-rank > span'
         )
         .last()
         .text()
         .trim()
-      const blueCornerFirstName: string = content
+
+      const blueCornerName: string = blueContent.text().trim()
+      const blueCornerFirstName: string = blueContent
         .find('.c-listing-fight__corner-given-name')
-        .last()
+        .first()
         .text()
         .trim()
-      const blueCornerLastName: string = content
+      const blueCornerLastName: string = blueContent
         .find('.c-listing-fight__corner-family-name')
-        .last()
+        .first()
         .text()
         .trim()
+
       const blueCornerOdds: number = parseInt(
         content.find('span.c-listing-fight__odds-amount').last().text().trim()
       )
@@ -125,24 +142,54 @@ export const getMainCard = async (): Promise<MainCard> => {
         .text()
         .trim()
 
+      let redSplitFirstName = ''
+      let redSplitLastName = ''
+      let blueSplitFirstName = ''
+      let blueSplitLastName = ''
+
+      if (redCornerName) {
+        const redSplit = redCornerName.split(' ')
+        redSplitFirstName = redSplit[0]
+        redSplitLastName = redSplit[redSplit.length - 1]
+      }
+      if (blueCornerName) {
+        const blueSplit = blueCornerName.split(' ')
+        blueSplitFirstName = blueSplit[0]
+        blueSplitLastName = blueSplit[blueSplit.length - 1]
+      }
+
+      const redFinalFirstName = !redCornerFirstName
+        ? redSplitFirstName
+        : redCornerFirstName
+      const redFinalLastName = !redCornerLastName
+        ? redSplitLastName
+        : redCornerLastName
+
+      const blueFinalFirstName = !blueCornerFirstName
+        ? blueSplitFirstName
+        : blueCornerFirstName
+      const blueFinalLastName = !blueCornerLastName
+        ? blueSplitLastName
+        : blueCornerLastName
+
       return {
         id:
-          redCornerLastName.toLowerCase() +
+          redFinalLastName.toLowerCase() +
           '-' +
-          blueCornerLastName.toLowerCase(),
+          blueFinalFirstName.toLowerCase(),
         bout,
         redCorner: {
-          firstName: redCornerFirstName,
-          lastName: redCornerLastName,
+          firstName: redFinalFirstName,
+          lastName: redFinalLastName,
           rank: redCornerRank,
-          odds: redCornerOdds,
+          odds: isNaN(redCornerOdds) ? 0 : redCornerOdds,
           outcome: redOutcome,
         },
         blueCorner: {
-          firstName: blueCornerFirstName,
-          lastName: blueCornerLastName,
+          firstName: blueFinalFirstName,
+          lastName: blueFinalLastName,
           rank: blueCornerRank,
-          odds: blueCornerOdds,
+          odds: isNaN(blueCornerOdds) ? 0 : blueCornerOdds,
           outcome: blueOutcome,
         },
       }

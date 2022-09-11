@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../db'
 import { Fight, MainCard } from '../scraper'
-
-const prisma = new PrismaClient()
 
 export const getCardByEventId = async (
   eventId: string

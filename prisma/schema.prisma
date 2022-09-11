@@ -45,9 +45,9 @@ model Fight {
 }
 
 model User {
-  email String @id @unique
-  name  String
-  image String
+  email String  @id @unique
+  name  String?
+  image String?
 
   Budgets  Budget[]
   Bets     Bet[]

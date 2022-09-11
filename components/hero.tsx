@@ -28,7 +28,7 @@ export const Hero = (props: MainCard) => {
     md: '80%',
     sm: '100%',
   })
-  console.log(contentWidth)
+
   const [mode, setMode] = useState(overLayGradients.dark)
 
   useEffect(() => {

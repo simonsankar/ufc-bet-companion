@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import {
   Box,
@@ -39,6 +39,8 @@ const NavLink = ({ children, url }: { children: ReactNode; url: string }) => (
 export const NavBar = () => {
   const { data: session } = useSession()
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  useEffect(() => {})
 
   return (
     <>

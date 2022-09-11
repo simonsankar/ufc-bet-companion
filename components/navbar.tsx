@@ -21,7 +21,7 @@ import {
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 import { ColourMode } from './colourMode'
 
-const Links = ['Upcoming', 'Past Events']
+const Links = ['Past Events']
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link

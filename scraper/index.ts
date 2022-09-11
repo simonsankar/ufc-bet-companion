@@ -76,10 +76,8 @@ export const getMainCard = async (eventId?: string): Promise<MainCard> => {
         .find('.c-listing-fight__corner-name.c-listing-fight__corner-name--red')
         .first()
 
-      const redCornerRank: string = redContent
-        .find(
-          '.js-listing-fight__corner-rank.c-listing-fight__corner-rank > span'
-        )
+      const redCornerRank: string = content
+        .find('.js-listing-fight__corner-rank c-listing-fight__corner-rank')
         .first()
         .text()
         .trim()
@@ -136,7 +134,7 @@ export const getMainCard = async (eventId?: string): Promise<MainCard> => {
         )
         .first()
 
-      const blueCornerRank: string = blueContent
+      const blueCornerRank: string = content
         .find(
           '.js-listing-fight__corner-rank.c-listing-fight__corner-rank > span'
         )

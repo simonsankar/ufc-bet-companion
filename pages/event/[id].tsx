@@ -27,6 +27,7 @@ export const getServerSideProps = async (
   if (!params?.id) {
     return
   }
+  console.log('event id: ', params.id)
   const card = await getCardByEventId(params.id)
 
   return {

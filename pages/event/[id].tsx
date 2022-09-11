@@ -1,17 +1,20 @@
 import { GetServerSidePropsContext, NextPage, NextPageContext } from 'next'
-import { useRouter } from 'next/router'
 import { getCardByEventId } from '../../data/event'
 import { MainCard } from '../../scraper'
 import { Hero } from '../../components/hero'
 import { MainLayout } from '../../components/layouts'
 
 const EventPage: NextPage<MainCard> = (props) => {
-  const router = useRouter()
-  //   const { id } = router.query
-
   return (
     <MainLayout>
-      <Hero {...props} />
+      {props ? (
+        <Hero {...props} />
+      ) : (
+        <div>
+          Debug: Error:
+          <pre>{JSON.stringify(props, null, 2)}</pre>
+        </div>
+      )}
     </MainLayout>
   )
 }

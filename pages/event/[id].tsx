@@ -7,14 +7,14 @@ import { MainLayout } from '../../components/layouts'
 const EventPage: NextPage<MainCard> = (props) => {
   return (
     <MainLayout>
-      {props ? (
+      {/* {props ? (
         <Hero {...props} />
-      ) : (
-        <div>
-          Debug: Error:
-          <pre>{JSON.stringify(props, null, 2)}</pre>
-        </div>
-      )}
+      ) : ( */}
+      <div>
+        Debug: Error:
+        <pre>{JSON.stringify(props, null, 2)}</pre>
+      </div>
+      {/* )} */}
     </MainLayout>
   )
 }

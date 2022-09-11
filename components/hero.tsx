@@ -6,6 +6,9 @@ import {
   Image,
   useColorMode,
   Box,
+  useBreakpointValue,
+  color,
+  Badge,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { MainCard } from '../scraper'
@@ -14,10 +17,18 @@ const FLAG_URL = 'https://www.ufc.com/themes/custom/ufc/assets/img/flags/'
 
 const overLayGradients = {
   dark: `linear-gradient(180deg, #30333633 0, #303336)`,
-  light: `linear-gradient(180deg, #dadbdd33 0, #f2f2f3)`,
+  light: `linear-gradient(180deg, #f2f2f333 0, #f2f2f3)`,
 }
 export const Hero = (props: MainCard) => {
   const { colorMode } = useColorMode()
+  const contentWidth = useBreakpointValue({
+    base: '80%',
+    xl: '60%',
+    lg: '70%',
+    md: '80%',
+    sm: '100%',
+  })
+  console.log(contentWidth)
   const [mode, setMode] = useState(overLayGradients.dark)
 
   useEffect(() => {
@@ -30,7 +41,6 @@ export const Hero = (props: MainCard) => {
   return (
     <>
       <Flex
-        // flex="2"
         style={{
           position: 'relative',
           backgroundPosition: 'center',
@@ -71,7 +81,7 @@ export const Hero = (props: MainCard) => {
       </Flex>
       <Flex flex="1" px="12" py="4" flexDir="column" align="center" gap="12">
         {props.fights.map((fight, idx) => (
-          <Flex key={fight.id} width="70%">
+          <Flex key={fight.id} width={contentWidth}>
             <Flex flexDir="column" align="center" width="100%" gap="1">
               {/* Bout */}
               <Text textTransform="uppercase">{fight.bout}</Text>
@@ -180,30 +190,38 @@ export const Hero = (props: MainCard) => {
               </Flex>
 
               {/* Odds Row*/}
-              <Flex flex={2} width="100%">
-                <Text flex="3" textTransform="uppercase" textAlign="right">
+              <Flex flex="2" width="100%">
+                <Flex flex="3" justifyContent="end">
                   {fight.redCorner.odds !== 0 ? (
-                    <>
+                    <Badge
+                      colorScheme={fight.redCorner.odds < 0 ? 'green' : 'red'}
+                      p=".5"
+                      pt="1"
+                    >
                       {fight.redCorner.odds > 0 && '+'}
                       {fight.redCorner.odds}
-                    </>
+                    </Badge>
                   ) : (
-                    '-'
+                    <Text>-</Text>
                   )}
-                </Text>
+                </Flex>
                 <Text flex="1" textTransform="uppercase" textAlign="center">
                   ODDS
                 </Text>
-                <Text flex="3" textTransform="uppercase" textAlign="left">
+                <Flex flex="3">
                   {fight.blueCorner.odds !== 0 ? (
-                    <>
+                    <Badge
+                      colorScheme={fight.blueCorner.odds < 0 ? 'green' : 'red'}
+                      p=".5"
+                      pt="1"
+                    >
                       {fight.blueCorner.odds > 0 && '+'}
                       {fight.blueCorner.odds}
-                    </>
+                    </Badge>
                   ) : (
-                    '-'
+                    <Text>-</Text>
                   )}
-                </Text>
+                </Flex>
               </Flex>
               {idx + 1 < props.fights.length && <Divider mt="4" />}
             </Flex>

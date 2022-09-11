@@ -14,6 +14,7 @@ model Event {
   timestamp Int
 
   Fight Fight[]
+  Bets  Bet[]
 }
 
 model Fight {
@@ -41,4 +42,50 @@ model Fight {
   Event Event @relation(fields: [eventId], references: [id])
 
   @@id([id, eventId])
+}
+
+model User {
+  email String @id @unique
+  name  String
+  image String
+
+  Budgets  Budget[]
+  Bets     Bet[]
+  Winnings Winnings[]
+}
+
+model Budget {
+  eventId   String
+  userEmail String
+  balance   Float
+  User      User   @relation(fields: [userEmail], references: [email])
+
+  @@id([eventId, userEmail])
+}
+
+enum Corner {
+  RED
+  BLUE
+}
+
+model Bet {
+  eventId   String
+  fightId   String
+  userEmail String
+  wager     Float
+  corner    Corner
+
+  Event Event @relation(fields: [eventId], references: [id])
+  User  User  @relation(fields: [userEmail], references: [email])
+
+  @@id([eventId, fightId, userEmail])
+}
+
+model Winnings {
+  eventId   String
+  userEmail String
+  winnings  Float
+  User      User   @relation(fields: [userEmail], references: [email])
+
+  @@id([eventId, userEmail])
 }

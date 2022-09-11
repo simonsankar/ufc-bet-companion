@@ -12,18 +12,16 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
   useDisclosure,
   useColorModeValue,
   Stack,
-  Heading,
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 import { ColourMode } from './colourMode'
 
-const Links = ['Past Events']
+const Links = [{ label: 'Past Events', url: '/events' }]
 
-const NavLink = ({ children }: { children: ReactNode }) => (
+const NavLink = ({ children, url }: { children: ReactNode; url: string }) => (
   <Link
     px={2}
     py={1}
@@ -32,7 +30,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
       textDecoration: 'none',
       bg: useColorModeValue('gray.200', 'gray.700'),
     }}
-    href={'#'}
+    href={url}
   >
     {children}
   </Link>
@@ -61,7 +59,9 @@ export const NavBar = () => {
               display={{ base: 'none', md: 'flex' }}
             >
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                <NavLink key={link.label} url={link.url}>
+                  {link.label}
+                </NavLink>
               ))}
             </HStack>
           </HStack>
@@ -112,7 +112,9 @@ export const NavBar = () => {
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                <NavLink key={link.label} url={link.url}>
+                  {link.label}
+                </NavLink>
               ))}
             </Stack>
           </Box>

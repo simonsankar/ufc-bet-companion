@@ -8,9 +8,6 @@ import { upsertCurrentEvent } from '../scraper/hydrate'
 const Home: NextPage<MainCard> = (props) => {
   return (
     <MainLayout>
-      <div>
-        <pre>{JSON.stringify(props, null, 2)}</pre>
-      </div>
       <Hero {...props} />
     </MainLayout>
   )

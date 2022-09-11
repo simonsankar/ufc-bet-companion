@@ -1,6 +1,16 @@
-import { Flex, Heading, Divider, Text, useColorMode } from '@chakra-ui/react'
+import {
+  Flex,
+  Heading,
+  Divider,
+  Text,
+  Image,
+  useColorMode,
+  Box,
+} from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { MainCard } from '../scraper'
+
+const FLAG_URL = 'https://www.ufc.com/themes/custom/ufc/assets/img/flags/'
 
 const overLayGradients = {
   dark: `linear-gradient(180deg, #30333633 0, #303336)`,
@@ -45,13 +55,15 @@ export const Hero = (props: MainCard) => {
             overflow: 'hidden',
           }}
         >
-          <Text size="2xl" textTransform="uppercase">
+          <Text fontSize="3xl" textTransform="uppercase">
             {props.title}
           </Text>
           <Heading size="4xl" textTransform="uppercase">
             {props.fights[0].redCorner.lastName}
           </Heading>
-          <Text textTransform="uppercase">vs</Text>
+          <Text fontSize="2xl" textTransform="uppercase">
+            vs
+          </Text>
           <Heading size="4xl" textTransform="uppercase">
             {props.fights[0].blueCorner.lastName}
           </Heading>
@@ -59,29 +71,116 @@ export const Hero = (props: MainCard) => {
       </Flex>
       <Flex flex="1" px="12" py="4" flexDir="column" align="center" gap="12">
         {props.fights.map((fight, idx) => (
-          <Flex key={fight.id} width="60%">
-            <Flex flexDir="column" align="center" width="100%" gap="2">
+          <Flex key={fight.id} width="70%">
+            <Flex flexDir="column" align="center" width="100%" gap="1">
               {/* Bout */}
               <Text textTransform="uppercase">{fight.bout}</Text>
+
               {/* Ranks */}
               <Flex width="100%" justifyContent="space-between">
                 <Text textTransform="uppercase">{fight.redCorner.rank}</Text>
                 <Text textTransform="uppercase">{fight.blueCorner.rank}</Text>
               </Flex>
+
               {/* Fighters */}
-              <Flex width="100%">
-                <Heading flex="1" textTransform="uppercase" textAlign="left">
-                  {fight.redCorner.lastName}
-                </Heading>
-                <Heading flex="1" textTransform="uppercase" textAlign="center">
-                  vs
-                </Heading>
-                <Heading flex="1" textTransform="uppercase" textAlign="right">
-                  {fight.blueCorner.lastName}
-                </Heading>
+              <Flex width="100%" justifyContent="space-between">
+                {/* Red Corner */}
+                <Flex>
+                  <Flex position="relative" flexDir="column">
+                    <Image
+                      src={fight.redCorner.photo}
+                      alt={fight.redCorner.lastName}
+                      height={170}
+                      width={185}
+                      objectFit="cover"
+                      objectPosition="top"
+                    />
+                    <Box
+                      position="absolute"
+                      top="0"
+                      left="0"
+                      height={170}
+                      width={185}
+                      style={{
+                        background: mode,
+                      }}
+                    />
+                    {fight.redCorner.flag && (
+                      <Box display="flex" alignItems="center" gap="2">
+                        <Image
+                          alt={fight.redCorner.country}
+                          src={FLAG_URL + fight.redCorner.flag}
+                          width={7}
+                        />
+                        <Text>{fight.redCorner.country}</Text>
+                      </Box>
+                    )}
+                  </Flex>
+                  <Heading
+                    width="255px"
+                    size="lg"
+                    textTransform="uppercase"
+                    textAlign="left"
+                  >
+                    {fight.redCorner.lastName}
+                  </Heading>
+                </Flex>
+                {/* Names */}
+                <Flex>
+                  <Heading
+                    flex={4}
+                    size="md"
+                    textTransform="uppercase"
+                    textAlign="center"
+                  >
+                    vs
+                  </Heading>
+                </Flex>
+                {/* BLue Corner */}
+                <Flex>
+                  <Heading
+                    width="255px"
+                    size="lg"
+                    textTransform="uppercase"
+                    textAlign="right"
+                  >
+                    {fight.blueCorner.lastName}
+                  </Heading>
+                  <Flex position="relative" flexDir="column" alignItems="end">
+                    <Image
+                      src={fight.blueCorner.photo}
+                      alt={fight.blueCorner.lastName}
+                      height={170}
+                      width={185}
+                      objectFit="cover"
+                      objectPosition="top"
+                    />
+                    <Box
+                      position="absolute"
+                      top="0"
+                      left="0"
+                      height={170}
+                      width={185}
+                      style={{
+                        background: mode,
+                      }}
+                    />
+                    {fight.blueCorner.flag && (
+                      <Box display="flex" alignItems="center" gap="2">
+                        <Text>{fight.blueCorner.country}</Text>
+                        <Image
+                          alt={fight.blueCorner.country}
+                          src={FLAG_URL + fight.blueCorner.flag}
+                          width={7}
+                        />
+                      </Box>
+                    )}
+                  </Flex>
+                </Flex>
               </Flex>
-              {/* Odds */}
-              <Flex width="100%">
+
+              {/* Odds Row*/}
+              <Flex flex={2} width="100%">
                 <Text flex="3" textTransform="uppercase" textAlign="right">
                   {fight.redCorner.odds !== 0 ? (
                     <>

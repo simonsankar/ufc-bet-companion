@@ -123,9 +123,11 @@ export const getMainCard = async (eventId?: string): Promise<MainCard> => {
           .attr('src')
           ?.replace('/themes/custom/ufc/assets/img/flags/', '') || ''
 
-      const redPhoto: string = 'nope'
-
-      console.log('redphot', redPhoto)
+      const redPhoto: string =
+        content
+          .find('.image-style-event-fight-card-upper-body-of-standing-athlete')
+          .first()
+          .attr('src') || 'fail!'
 
       // Blue corner
       const blueContent = content
@@ -181,7 +183,11 @@ export const getMainCard = async (eventId?: string): Promise<MainCard> => {
           .attr('src')
           ?.replace('/themes/custom/ufc/assets/img/flags/', '') || ''
 
-      const bluePhoto: string = 'nope a dope'
+      const bluePhoto: string =
+        content
+          .find('.image-style-event-fight-card-upper-body-of-standing-athlete')
+          .last()
+          .attr('src') || 'failed agin'
 
       const bout: string = content
         .find('.c-listing-fight__class-text')
@@ -223,7 +229,7 @@ export const getMainCard = async (eventId?: string): Promise<MainCard> => {
         id:
           redFinalLastName.toLowerCase() +
           '-' +
-          blueFinalFirstName.toLowerCase(),
+          blueFinalLastName.toLowerCase(),
         bout,
         order: idx + 1,
         redCorner: {

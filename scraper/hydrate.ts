@@ -26,8 +26,6 @@ export const upsertCurrentEvent = async (
   try {
     updatedFights = await Promise.all(
       mainCard.fights.map(async (fight) => {
-        console.log('fight.redCorner.photo', fight.redCorner.photo)
-        console.log('fight.blueCorner.photo', fight.blueCorner.photo)
         const updatedFight = await prisma.fight.upsert({
           where: {
             id_eventId: {

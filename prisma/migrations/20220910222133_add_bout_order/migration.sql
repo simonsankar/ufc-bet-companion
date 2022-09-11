@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Fight" ADD COLUMN     "order" INTEGER NOT NULL DEFAULT 0;

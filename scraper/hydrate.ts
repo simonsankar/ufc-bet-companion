@@ -3,8 +3,10 @@ import { getMainCard, MainCard, Fight } from '.'
 
 const prisma = new PrismaClient()
 
-export const upsertCurrentEvent = async (): Promise<MainCard> => {
-  const mainCard = await getMainCard()
+export const upsertCurrentEvent = async (
+  eventId?: string
+): Promise<MainCard> => {
+  const mainCard = await getMainCard(eventId)
 
   const { id, title, timestamp, poster } = await prisma.event.upsert({
     where: { id: mainCard.id },
@@ -24,6 +26,8 @@ export const upsertCurrentEvent = async (): Promise<MainCard> => {
   try {
     updatedFights = await Promise.all(
       mainCard.fights.map(async (fight) => {
+        console.log('fight.redCorner.photo', fight.redCorner.photo)
+        console.log('fight.blueCorner.photo', fight.blueCorner.photo)
         const updatedFight = await prisma.fight.upsert({
           where: {
             id_eventId: {
@@ -33,38 +37,65 @@ export const upsertCurrentEvent = async (): Promise<MainCard> => {
           },
           update: {
             bout: fight.bout,
+            order: fight.order,
+
             redCornerFirstName: fight.redCorner.firstName,
             redCornerLastName: fight.redCorner.lastName,
             redCornerRank: fight.redCorner.rank,
             redCornerOdds: fight.redCorner.odds,
             redCornerOutcome: fight.redCorner.outcome,
-          },
-          create: {
-            id: fight.id,
-            eventId: mainCard.id,
-            bout: fight.bout,
-            redCornerFirstName: fight.redCorner.firstName,
-            redCornerLastName: fight.redCorner.lastName,
-            redCornerRank: fight.redCorner.rank,
-            redCornerOdds: fight.redCorner.odds,
-            redCornerOutcome: fight.redCorner.outcome,
+            redCountry: fight.redCorner.country,
+            redFlag: fight.redCorner.flag,
+            redPhoto: fight.redCorner.photo,
+
             blueCornerFirstName: fight.blueCorner.firstName,
             blueCornerLastName: fight.blueCorner.lastName,
             blueCornerRank: fight.blueCorner.rank,
             blueCornerOdds: fight.blueCorner.odds,
             blueCornerOutcome: fight.blueCorner.outcome,
+            blueCountry: fight.blueCorner.country,
+            blueFlag: fight.blueCorner.flag,
+            bluePhoto: fight.blueCorner.photo,
+          },
+          create: {
+            id: fight.id,
+            eventId: mainCard.id,
+            bout: fight.bout,
+            order: fight.order,
+
+            redCornerFirstName: fight.redCorner.firstName,
+            redCornerLastName: fight.redCorner.lastName,
+            redCornerRank: fight.redCorner.rank,
+            redCornerOdds: fight.redCorner.odds,
+            redCornerOutcome: fight.redCorner.outcome,
+            redCountry: fight.redCorner.country,
+            redFlag: fight.redCorner.flag,
+            redPhoto: fight.redCorner.photo,
+
+            blueCornerFirstName: fight.blueCorner.firstName,
+            blueCornerLastName: fight.blueCorner.lastName,
+            blueCornerRank: fight.blueCorner.rank,
+            blueCornerOdds: fight.blueCorner.odds,
+            blueCornerOutcome: fight.blueCorner.outcome,
+            blueCountry: fight.blueCorner.country,
+            blueFlag: fight.blueCorner.flag,
+            bluePhoto: fight.blueCorner.photo,
           },
         })
 
         return {
           id: updatedFight.id,
           bout: updatedFight.bout,
+          order: updatedFight.order,
           redCorner: {
             firstName: updatedFight.redCornerFirstName,
             lastName: updatedFight.redCornerLastName,
             rank: updatedFight.redCornerRank,
             odds: updatedFight.redCornerOdds,
             outcome: updatedFight.redCornerOutcome,
+            country: updatedFight.redCountry,
+            flag: updatedFight.redFlag,
+            photo: updatedFight.redPhoto || '',
           },
           blueCorner: {
             firstName: updatedFight.blueCornerFirstName,
@@ -72,6 +103,9 @@ export const upsertCurrentEvent = async (): Promise<MainCard> => {
             rank: updatedFight.blueCornerRank,
             odds: updatedFight.blueCornerOdds,
             outcome: updatedFight.blueCornerOutcome,
+            country: updatedFight.blueCountry,
+            flag: updatedFight.blueFlag,
+            photo: updatedFight.bluePhoto || '',
           },
         }
       })

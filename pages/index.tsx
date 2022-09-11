@@ -1,14 +1,18 @@
 import type { NextPage } from 'next'
-import { NavBar } from '../components/navbar'
+import { useEffect } from 'react'
+import { Hero } from '../components/hero'
+import { MainLayout } from '../components/layouts'
 import { MainCard } from '../scraper'
 import { upsertCurrentEvent } from '../scraper/hydrate'
 
 const Home: NextPage<MainCard> = (props) => {
   return (
-    <>
-      <NavBar />
-      <div>{props.title}</div>
-    </>
+    <MainLayout>
+      <div>
+        <pre>{JSON.stringify(props, null, 2)}</pre>
+      </div>
+      <Hero {...props} />
+    </MainLayout>
   )
 }
 

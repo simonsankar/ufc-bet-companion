@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -22,18 +19,26 @@ model Event {
 model Fight {
   id                  String
   eventId             String
-  Event               Event  @relation(fields: [eventId], references: [id])
   bout                String
+  order               Int     @default(0)
   redCornerFirstName  String
   redCornerLastName   String
   redCornerRank       String
   redCornerOdds       Int
   redCornerOutcome    String
+  redCountry          String
+  redFlag             String
+  redPhoto            String?
   blueCornerFirstName String
   blueCornerLastName  String
   blueCornerRank      String
   blueCornerOdds      Int
   blueCornerOutcome   String
+  blueCountry         String
+  blueFlag            String
+  bluePhoto           String?
+
+  Event Event @relation(fields: [eventId], references: [id])
 
   @@id([id, eventId])
 }

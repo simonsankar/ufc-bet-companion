@@ -1,13 +1,22 @@
 import { Flex, Heading, Divider, Text, useColorMode } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
 import { MainCard } from '../scraper'
 
+const overLayGradients = {
+  dark: `linear-gradient(180deg, #30333633 0, #303336)`,
+  light: `linear-gradient(180deg, #dadbdd33 0, #f2f2f3)`,
+}
 export const Hero = (props: MainCard) => {
   const { colorMode } = useColorMode()
+  const [mode, setMode] = useState(overLayGradients.dark)
 
-  const overLayGradients = {
-    dark: `linear-gradient(180deg, #30333633 0, #303336)`,
-    light: `linear-gradient(180deg, #dadbdd33 0, #dadbdd)`,
-  }
+  useEffect(() => {
+    if (colorMode === 'light') {
+      setMode(overLayGradients.light)
+      return
+    }
+    setMode(overLayGradients.dark)
+  }, [colorMode])
   return (
     <>
       <Flex
@@ -32,11 +41,7 @@ export const Hero = (props: MainCard) => {
           gap="4"
           style={{
             position: 'absolute',
-            background: overLayGradients.dark,
-
-            // colorMode === 'dark'
-            //   ? overLayGradients.dark
-            //   : overLayGradients.light,
+            background: mode,
             overflow: 'hidden',
           }}
         >
@@ -78,15 +83,27 @@ export const Hero = (props: MainCard) => {
               {/* Odds */}
               <Flex width="100%">
                 <Text flex="3" textTransform="uppercase" textAlign="right">
-                  {fight.redCorner.odds > 0 && '+'}
-                  {fight.redCorner.odds}
+                  {fight.redCorner.odds !== 0 ? (
+                    <>
+                      {fight.redCorner.odds > 0 && '+'}
+                      {fight.redCorner.odds}
+                    </>
+                  ) : (
+                    '-'
+                  )}
                 </Text>
                 <Text flex="1" textTransform="uppercase" textAlign="center">
                   ODDS
                 </Text>
                 <Text flex="3" textTransform="uppercase" textAlign="left">
-                  {fight.blueCorner.odds > 0 && '+'}
-                  {fight.blueCorner.odds}
+                  {fight.blueCorner.odds !== 0 ? (
+                    <>
+                      {fight.blueCorner.odds > 0 && '+'}
+                      {fight.blueCorner.odds}
+                    </>
+                  ) : (
+                    '-'
+                  )}
                 </Text>
               </Flex>
               {idx + 1 < props.fights.length && <Divider mt="4" />}

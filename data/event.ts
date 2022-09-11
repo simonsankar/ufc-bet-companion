@@ -6,8 +6,6 @@ const prisma = new PrismaClient()
 export const getCardByEventId = async (
   eventId: string
 ): Promise<MainCard | null> => {
-  console.log('received event id', eventId)
-
   const event = await prisma.event.findUnique({
     select: {
       id: true,
@@ -19,7 +17,7 @@ export const getCardByEventId = async (
       id: eventId,
     },
   })
-  console.log('fetched event', event)
+
   if (!event) {
     return null
   }

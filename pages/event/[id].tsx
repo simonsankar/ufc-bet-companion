@@ -7,14 +7,14 @@ import { MainLayout } from '../../components/layouts'
 const EventPage: NextPage<MainCard> = (props) => {
   return (
     <MainLayout>
-      {/* {props ? (
+      {props ? (
         <Hero {...props} />
-      ) : ( */}
-      <div>
-        Debug: Error:
-        <pre>{JSON.stringify(props, null, 2)}</pre>
-      </div>
-      {/* )} */}
+      ) : (
+        <div>
+          Debug: Error:
+          <pre>{JSON.stringify(props, null, 2)}</pre>
+        </div>
+      )}
     </MainLayout>
   )
 }
@@ -27,9 +27,8 @@ export const getServerSideProps = async (
   if (!params?.id) {
     return
   }
-  console.log('event id: ', params.id)
   const card = await getCardByEventId(params.id)
-  console.log(JSON.stringify(card, null, 2))
+
   return {
     props: card,
   }

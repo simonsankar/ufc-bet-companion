@@ -1,3 +1,9 @@
+## UFC Bet Companion
+A fake UFC betting app for UFC main cards.
+
+![image](https://user-images.githubusercontent.com/24282645/189701248-4ad40a2a-b80b-45d7-b958-aa0d01c53c1d.png)
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

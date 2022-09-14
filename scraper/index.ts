@@ -76,8 +76,8 @@ export const getMainCard = async (eventId?: string): Promise<MainCard> => {
         .find('.c-listing-fight__corner-name.c-listing-fight__corner-name--red')
         .first()
 
-      const redCornerRank: string = content
-        .find('.js-listing-fight__corner-rank c-listing-fight__corner-rank')
+      const redCornerRank: string = $(el)
+        .find('div.c-listing-fight__ranks-row > div:nth-child(1) > span')
         .first()
         .text()
         .trim()
@@ -122,10 +122,12 @@ export const getMainCard = async (eventId?: string): Promise<MainCard> => {
           ?.replace('/themes/custom/ufc/assets/img/flags/', '') || ''
 
       const redPhoto: string =
-        content
+        $(content)
+          .find('.c-listing-fight__corner-image--red')
           .find('.image-style-event-fight-card-upper-body-of-standing-athlete')
           .first()
-          .attr('src') || 'fail!'
+          .attr('src') ||
+        'https://www.ufc.com/themes/custom/ufc/assets/img/standing-stance-right-silhouette.png'
 
       // Blue corner
       const blueContent = content
@@ -134,10 +136,8 @@ export const getMainCard = async (eventId?: string): Promise<MainCard> => {
         )
         .first()
 
-      const blueCornerRank: string = content
-        .find(
-          '.js-listing-fight__corner-rank.c-listing-fight__corner-rank > span'
-        )
+      const blueCornerRank: string = $(el)
+        .find('div.c-listing-fight__ranks-row > div:nth-child(2) > span')
         .last()
         .text()
         .trim()
@@ -182,10 +182,12 @@ export const getMainCard = async (eventId?: string): Promise<MainCard> => {
           ?.replace('/themes/custom/ufc/assets/img/flags/', '') || ''
 
       const bluePhoto: string =
-        content
+        $(content)
+          .find('.c-listing-fight__corner-image--blue')
           .find('.image-style-event-fight-card-upper-body-of-standing-athlete')
           .last()
-          .attr('src') || 'failed agin'
+          .attr('src') ||
+        'https://www.ufc.com/themes/custom/ufc/assets/img/standing-stance-left-silhouette.png'
 
       const bout: string = content
         .find('.c-listing-fight__class-text')
@@ -251,7 +253,6 @@ export const getMainCard = async (eventId?: string): Promise<MainCard> => {
           photo: bluePhoto,
         },
       }
-
       return fight
     })
     .get()

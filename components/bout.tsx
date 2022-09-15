@@ -271,6 +271,10 @@ const UserBet: React.FC<UserBetProps> = (props) => {
     }
   }
 
+  const onWagerClear = () => {
+    // Delete bet
+  }
+
   return (
     <Flex width="100%" flexDir="column" gap={2}>
       <Flex
@@ -280,7 +284,7 @@ const UserBet: React.FC<UserBetProps> = (props) => {
         justifyContent="space-between"
       >
         <Button
-          colorScheme={corner === 'RED' ? 'red' : 'inherit'}
+          colorScheme="red"
           variant={corner === 'RED' ? 'solid' : 'outline'}
           onClick={onSwitchCorner('RED')}
         >
@@ -294,7 +298,7 @@ const UserBet: React.FC<UserBetProps> = (props) => {
         )}
 
         <Button
-          colorScheme={corner === 'BLUE' ? 'blue' : 'inherit'}
+          colorScheme="blue"
           variant={corner === 'BLUE' ? 'solid' : 'outline'}
           onClick={onSwitchCorner('BLUE')}
         >
@@ -428,10 +432,9 @@ const Wager: React.FC<WagerProps> = (props) => {
         ) : (
           <Alert status="error">
             <AlertIcon />
-            <AlertTitle>You&apos;re out of money!</AlertTitle>
+            <AlertTitle>Out of money!</AlertTitle>
             <AlertDescription>
-              Try moving around the funds on other bets or clear all current
-              bets.
+              Try reducing or clearing other bets.
             </AlertDescription>
           </Alert>
         )}

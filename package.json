@@ -15,7 +15,7 @@
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@fontsource/montserrat": "^4.5.12",
-    "@fontsource/overpass": "^4.5.8",
+    "@fontsource/roboto-condensed": "^4.5.9",
     "@prisma/client": "4.1.1",
     "cheerio": "^1.0.0-rc.12",
     "framer-motion": "^6.5.1",

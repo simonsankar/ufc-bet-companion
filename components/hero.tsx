@@ -88,6 +88,7 @@ export const Hero = (props: MainCard) => {
               fight={fight}
               width={contentWidth || '70%'}
               mode={mode}
+              eventTimestamp={props.timestamp}
             />
           </>
         ))}

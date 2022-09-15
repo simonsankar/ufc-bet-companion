@@ -27,6 +27,7 @@ import {
 import { Fight } from '../scraper'
 import { Bet, Corner } from '@prisma/client'
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
+import { useSession } from 'next-auth/react'
 
 const FLAG_URL = 'https://www.ufc.com/themes/custom/ufc/assets/img/flags/'
 
@@ -36,9 +37,11 @@ type BoutProps = {
   fight: Fight
   width: string
   mode: string
+  eventTimestamp: number
 }
 export const Bout: React.FC<BoutProps> = (props) => {
-  const { fight, width, mode, index, total } = props
+  const { status } = useSession()
+  const { fight, width, mode, index, total, eventTimestamp } = props
   return (
     <>
       <Flex key={fight.id} width={width}>
@@ -152,7 +155,9 @@ export const Bout: React.FC<BoutProps> = (props) => {
           {/* Odds Row*/}
           <Odds fight={fight} />
 
-          {!!fight.redCorner.odds && <UserBet fight={fight} balance={100} />}
+          {status === 'authenticated' &&
+            Math.floor(Date.now() / 1000) <= eventTimestamp &&
+            !!fight.redCorner.odds && <UserBet fight={fight} balance={100} />}
 
           {/* Placed Bets */}
           <PlacedBets />

@@ -250,26 +250,24 @@ type UserBetProps = {
 }
 const UserBet: React.FC<UserBetProps> = (props) => {
   const { balance = 10, fight } = props
-  const { colorMode } = useColorMode()
   const [corner, setCorner] = useState<Bet['corner'] | undefined>(undefined)
   const [wager, setWager] = useState(0)
-  const [potentialWinnings, setPotentialWinnings] = useState(0)
+  const [winnings, setWinnings] = useState(0)
 
-  const format = (val: number) => `$ ` + val
   const parse = (val: string) => parseFloat(val.replace(/^\$/, ''))
 
   const onSwitchCorner = (corner: Bet['corner']) => () => {
     setCorner(corner)
     setWager(0)
-    setPotentialWinnings(0)
+    setWinnings(0)
   }
 
-  const onBetChange = (valueAsString: string, valueAsNumber: number) => {
+  const onWagerChange = (valueAsString: string, valueAsNumber: number) => {
     setWager(parse(valueAsString))
     if (corner === 'RED') {
-      setPotentialWinnings(calcWinnings(valueAsNumber, fight.redCorner.odds))
+      setWinnings(calcWinnings(valueAsNumber, fight.redCorner.odds))
     } else {
-      setPotentialWinnings(calcWinnings(valueAsNumber, fight.blueCorner.odds))
+      setWinnings(calcWinnings(valueAsNumber, fight.blueCorner.odds))
     }
   }
 
@@ -304,109 +302,140 @@ const UserBet: React.FC<UserBetProps> = (props) => {
         </Button>
       </Flex>
       {corner && (
-        <Flex
-          px={2}
-          justifyContent={corner === 'RED' ? 'start' : 'end'}
-          borderLeftWidth="2px"
-          borderRightWidth="2px"
-          borderInlineStartColor={
-            corner === 'RED'
-              ? colorMode === 'light'
-                ? 'red.500'
-                : 'red.100'
-              : 'transparent'
-          }
-          borderInlineEndColor={
-            corner === 'BLUE'
-              ? colorMode === 'light'
-                ? 'blue.500'
-                : 'blue.100'
-              : 'transparent'
-          }
-        >
-          <Flex flexDir="column" width="33%" gap={1}>
-            {balance > 0 ? (
-              <>
-                <Flex
-                  position="relative"
-                  alignItems="center"
-                  gap={2}
-                  justifyContent="space-between"
-                >
-                  <Text>Bet:</Text>
-                  <NumberInput
-                    size="sm"
-                    width={100}
-                    value={format(wager)}
-                    onChange={onBetChange}
-                    max={balance}
-                    clampValueOnBlur={false}
-                  >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-                  {wager <= 0 ||
-                    (wager >= balance && (
-                      <Button
-                        disabled={wager <= 0 || wager >= balance}
-                        position="absolute"
-                        right="-115px"
-                        top="0"
-                        size="sm"
-                        colorScheme="gray"
-                      >
-                        Place Bet
-                        <CheckIcon color="green" fontSize="12" ml="2" />
-                      </Button>
-                    ))}
-                </Flex>
-                <Flex
-                  alignItems="center"
-                  gap={2}
-                  justifyContent="space-between"
-                >
-                  <Text>Potential Winnings:</Text>
-                  <NumberInput
-                    isDisabled
-                    size="sm"
-                    width={100}
-                    value={`$ ${potentialWinnings}`}
-                  >
-                    <NumberInputField />
-                  </NumberInput>
-                </Flex>
-                <Flex
-                  alignItems="center"
-                  gap={2}
-                  justifyContent="space-between"
-                >
-                  <Text>Take Home:</Text>
-                  <NumberInput
-                    isDisabled
-                    size="sm"
-                    width={100}
-                    value={`$ ${(potentialWinnings + wager).toFixed(2)}`}
-                  >
-                    <NumberInputField />
-                  </NumberInput>
-                </Flex>
-              </>
-            ) : (
-              <Alert status="error">
-                <AlertIcon />
-                <AlertTitle>You&apos;re out of money!</AlertTitle>
-                <AlertDescription>
-                  Try moving around the funds on other bets or clear all current
-                  bets.
-                </AlertDescription>
-              </Alert>
-            )}
-          </Flex>
-        </Flex>
+        <Wager
+          corner={corner}
+          wager={wager}
+          winnings={winnings}
+          balance={balance}
+          onWagerChange={onWagerChange}
+        />
       )}
+    </Flex>
+  )
+}
+
+type WagerProps = {
+  corner: Bet['corner']
+  wager: number
+  winnings: number
+  balance: number
+  onWagerChange: (valueAsString: string, valueAsNumber: number) => void
+  onPlaceBet?: () => void
+}
+const Wager: React.FC<WagerProps> = (props) => {
+  const { colorMode } = useColorMode()
+  const { corner, wager, winnings, balance, onWagerChange } = props
+
+  const format = (val: number) => `$ ` + val
+
+  return (
+    <Flex
+      px={2}
+      justifyContent={corner === 'RED' ? 'start' : 'end'}
+      borderLeftWidth="2px"
+      borderRightWidth="2px"
+      borderInlineStartColor={
+        corner === 'RED'
+          ? colorMode === 'light'
+            ? 'red.500'
+            : 'red.100'
+          : 'transparent'
+      }
+      borderInlineEndColor={
+        corner === 'BLUE'
+          ? colorMode === 'light'
+            ? 'blue.500'
+            : 'blue.100'
+          : 'transparent'
+      }
+    >
+      <Flex flexDir="column" width="33%" gap={1}>
+        {balance > 0 ? (
+          <>
+            {/* Wager */}
+            <Flex
+              position="relative"
+              alignItems="center"
+              gap={2}
+              flexDir={corner === 'RED' ? 'row' : 'row-reverse'}
+              justifyContent="space-between"
+            >
+              <Text>Wager</Text>
+              <NumberInput
+                size="sm"
+                width={100}
+                value={format(wager)}
+                onChange={onWagerChange}
+                max={balance}
+                clampValueOnBlur={false}
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+              {wager <= balance && wager > 0 && (
+                <Button
+                  position="absolute"
+                  right={corner === 'RED' ? '-115px' : '225px'}
+                  top="0"
+                  size="sm"
+                  colorScheme="gray"
+                >
+                  Place Bet
+                  <CheckIcon color="green" fontSize="12" ml="2" />
+                </Button>
+              )}
+            </Flex>
+
+            {/* Winnings */}
+            <Flex
+              alignItems="center"
+              gap={2}
+              justifyContent="space-between"
+              flexDir={corner === 'RED' ? 'row' : 'row-reverse'}
+            >
+              <Text>Winnings</Text>
+              <NumberInput
+                isDisabled
+                size="sm"
+                width={100}
+                value={`$ ${winnings}`}
+              >
+                <NumberInputField />
+              </NumberInput>
+            </Flex>
+
+            {/* Take Home */}
+            <Flex
+              alignItems="center"
+              gap={2}
+              justifyContent="space-between"
+              flexDir={corner === 'RED' ? 'row' : 'row-reverse'}
+            >
+              <Text>Take Home</Text>
+              <NumberInput
+                isDisabled
+                size="sm"
+                width={100}
+                value={`$ ${(winnings + wager).toFixed(2)}`}
+              >
+                <NumberInputField />
+              </NumberInput>
+            </Flex>
+          </>
+        ) : (
+          <Alert status="error">
+            <AlertIcon />
+            <AlertTitle>You&apos;re out of money!</AlertTitle>
+            <AlertDescription>
+              Try moving around the funds on other bets or clear all current
+              bets.
+            </AlertDescription>
+          </Alert>
+        )}
+      </Flex>
     </Flex>
   )
 }

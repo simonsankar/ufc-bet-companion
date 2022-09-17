@@ -271,9 +271,9 @@ const UserBet: React.FC<UserBetProps> = (props) => {
     }
   }
 
-  const onWagerClear = () => {
-    // Delete bet
-  }
+  // const onWagerClear = () => {
+  //   // Delete bet
+  // }
 
   return (
     <Flex width="100%" flexDir="column" gap={2}>

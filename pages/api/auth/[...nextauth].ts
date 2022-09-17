@@ -14,19 +14,11 @@ export default NextAuth({
 
   callbacks: {
     async signIn({ user }) {
-      console.log('attempt to check sign in user')
-      console.log('user', user.email)
       if (!user.email || (await checkUserExists(user.email))) {
         return true
       }
-      console.log('creating new user!', user.email, user.name, user.image)
 
-      const newUser = await createUser(
-        user.email,
-        user.name || '',
-        user.image || ''
-      )
-      console.log(JSON.stringify(newUser))
+      await createUser(user.email, user.name || '', user.image || '')
       return true
     },
   },

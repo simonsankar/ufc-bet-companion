@@ -26,7 +26,6 @@ export const createUser = async (
   name: string,
   image: string
 ): Promise<Data> => {
-  console.log('Recieved user data:', email, name, image)
   try {
     const user = await prisma.user.create({
       data: {

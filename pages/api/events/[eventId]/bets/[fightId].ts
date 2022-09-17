@@ -33,7 +33,6 @@ const getBet = async (
   fightId: string,
   userEmail: string
 ): Promise<Data> => {
-  console.log('get a user bet')
   try {
     const bet = await prisma.bet.findUnique({
       where: {

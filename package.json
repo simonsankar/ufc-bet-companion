@@ -10,7 +10,7 @@
     "type-check": "tsc"
   },
   "pre-commit": [
-    "lint --fix",
+    "lint",
     "type-check"
   ],
   "dependencies": {

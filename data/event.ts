@@ -1,5 +1,5 @@
-import { prisma } from '../db'
-import { Fight, MainCard } from '../scraper'
+import { prisma } from './db'
+import { Fight, MainCard } from '../shared/event'
 
 export const getCardByEventId = async (
   eventId: string

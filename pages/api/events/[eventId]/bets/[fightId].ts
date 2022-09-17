@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from 'next-auth/jwt'
 import { Bet } from '@prisma/client'
-import { prisma } from '../../../../../db'
+import { prisma } from '../../../../../data/db'
 import { checkUserExists } from '../../../users'
 
 type Data = {

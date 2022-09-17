@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSession } from 'next-auth/react'
 import {
   Flex,
   Heading,
@@ -24,10 +25,9 @@ import {
   AlertIcon,
   AlertTitle,
 } from '@chakra-ui/react'
-import { Fight } from '../scraper'
 import { Bet, Corner } from '@prisma/client'
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
-import { useSession } from 'next-auth/react'
+import { Fight } from '../shared/event'
 
 const FLAG_URL = 'https://www.ufc.com/themes/custom/ufc/assets/img/flags/'
 

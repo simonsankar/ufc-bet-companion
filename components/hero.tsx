@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   Flex,
   Heading,
@@ -10,9 +11,8 @@ import {
   color,
   Badge,
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
-import { MainCard } from '../scraper'
 import { Bout } from './bout'
+import { MainCard } from '../shared/event'
 
 const overLayGradients = {
   dark: `linear-gradient(180deg, #30333633 0, #303336)`,

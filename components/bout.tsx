@@ -22,9 +22,11 @@ type BoutProps = {
   mode: string
   eventTimestamp: number
 }
+
 export const Bout: React.FC<BoutProps> = (props) => {
-  const { status } = useSession()
   const { fight, width, mode, index, total, eventTimestamp } = props
+  const { status } = useSession()
+
   return (
     <>
       <Flex key={fight.id} width={width}>
@@ -157,7 +159,7 @@ export const Bout: React.FC<BoutProps> = (props) => {
             !!fight.redCorner.odds && <UserBet fight={fight} balance={100} />}
 
           {/* Placed Bets */}
-          <PlacedBets />
+          <PlacedBets fight={fight} />
 
           {index + 1 < total && <Divider mt="4" />}
         </Flex>

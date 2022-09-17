@@ -21,10 +21,32 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Bet } from '@prisma/client'
+import { useQuery } from '@tanstack/react-query'
+import { useAtomValue } from 'jotai'
 import { useState } from 'react'
+import { activeEvent } from 'atoms/events'
 import { Fight } from 'shared/event'
 
-export const PlacedBets = () => {
+const getFightBets = async (eventId: string, fightId: string) => {
+  const resp = await fetch(`/api/events/${eventId}/bets/${fightId}`)
+  return await resp.json()
+}
+
+type PlacedBetsProps = {
+  fight: Fight
+}
+export const PlacedBets: React.FC<PlacedBetsProps> = (props) => {
+  const { fight } = props
+  const activeEventVal = useAtomValue(activeEvent)
+
+  const { data, isLoading, isError } = useQuery(
+    [`${fight.id}-bets`],
+    () => getFightBets(activeEventVal?.id || '', fight.id),
+    {
+      enabled: true,
+    }
+  )
+
   const { colorMode } = useColorMode()
   return (
     <Accordion mt={2} width="100%" allowToggle>
@@ -39,7 +61,20 @@ export const PlacedBets = () => {
           </Box>
           <AccordionIcon />
         </AccordionButton>
-        <AccordionPanel pb={2}>List of Bets</AccordionPanel>
+        <AccordionPanel pb={2}>
+          {isLoading && 'Loading'}
+          {isError && 'Error'}
+          {data &&
+            data.data.map((bet: any) => (
+              <div key={bet.userEmail}>
+                name:{bet.User.name} | wager:{bet.wager} |{' '}
+                {bet.corner === 'RED'
+                  ? fight.redCorner.lastName
+                  : fight.blueCorner.lastName}
+              </div>
+            ))}
+          {data && JSON.stringify(data)}
+        </AccordionPanel>
       </AccordionItem>
     </Accordion>
   )

@@ -9,7 +9,10 @@
   "rules": {
     "no-console": ["error", { "allow": ["warn", "error"] }],
 
-    "@typescript-eslint/no-unused-vars": ["error", { "args": "none" }],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "args": "none", "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
 
     "unused-imports/no-unused-imports": "error",
     "no-relative-import-paths/no-relative-import-paths": [

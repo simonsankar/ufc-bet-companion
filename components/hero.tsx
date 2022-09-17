@@ -5,7 +5,9 @@ import {
   useBreakpointValue,
   useColorMode,
 } from '@chakra-ui/react'
+import { useSetAtom } from 'jotai'
 import { useEffect, useState } from 'react'
+import { activeEvent } from 'atoms/events'
 import { Bout } from 'components/bout'
 import type { MainCard } from 'shared/event'
 
@@ -22,8 +24,9 @@ export const Hero = (props: MainCard) => {
     md: '80%',
     sm: '100%',
   })
-
   const [mode, setMode] = useState(overLayGradients.dark)
+
+  const setActiveEvent = useSetAtom(activeEvent)
 
   useEffect(() => {
     if (colorMode === 'light') {
@@ -32,6 +35,16 @@ export const Hero = (props: MainCard) => {
     }
     setMode(overLayGradients.dark)
   }, [colorMode])
+
+  useEffect(() => {
+    setActiveEvent({
+      id: props.id,
+      title: props.title,
+      poster: props.poster,
+      timestamp: props.timestamp,
+    })
+  }, [props.id, props.poster, props.timestamp, props.title, setActiveEvent])
+
   return (
     <>
       <Flex

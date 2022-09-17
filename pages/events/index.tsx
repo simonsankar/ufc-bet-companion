@@ -1,5 +1,5 @@
-import React from 'react'
 import { useSession } from 'next-auth/react'
+import React from 'react'
 import { MainLayout } from 'components/layouts'
 
 const EventsPage = () => {

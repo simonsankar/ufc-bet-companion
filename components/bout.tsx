@@ -1,11 +1,5 @@
-import React, { useState } from 'react'
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
   Alert,
   AlertDescription,
   AlertIcon,
@@ -15,10 +9,10 @@ import {
   Button,
   Divider,
   Flex,
+  NumberIncrementStepper,
   Heading,
   Image,
   NumberDecrementStepper,
-  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -27,6 +21,8 @@ import {
 } from '@chakra-ui/react'
 import { Bet } from '@prisma/client'
 import { useSession } from 'next-auth/react'
+import React, { useState } from 'react'
+import { PlacedBets } from 'components/bets'
 import type { Fight } from 'shared/event'
 
 const FLAG_URL = 'https://www.ufc.com/themes/custom/ufc/assets/img/flags/'
@@ -208,27 +204,6 @@ const Odds: React.FC<OddsProps> = (props) => {
         )}
       </Flex>
     </Flex>
-  )
-}
-
-const PlacedBets = () => {
-  const { colorMode } = useColorMode()
-  return (
-    <Accordion mt={2} width="100%" allowToggle>
-      <AccordionItem border="none">
-        <AccordionButton
-          _expanded={{
-            bg: colorMode === 'light' ? 'gray.100' : 'gray.700',
-          }}
-        >
-          <Box flex="1" textAlign="left">
-            Bets
-          </Box>
-          <AccordionIcon />
-        </AccordionButton>
-        <AccordionPanel pb={2}>List of Bets</AccordionPanel>
-      </AccordionItem>
-    </Accordion>
   )
 }
 

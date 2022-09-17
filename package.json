@@ -10,7 +10,7 @@
     "type-check": "tsc"
   },
   "pre-commit": [
-    "lint",
+    "lint --fix",
     "type-check"
   ],
   "dependencies": {
@@ -38,7 +38,6 @@
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.3",
     "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-import-order": "^2.1.4",
     "eslint-plugin-no-relative-import-paths": "1.4.0",
     "eslint-plugin-unused-imports": "2.0.0",
     "pre-commit": "^1.2.2",

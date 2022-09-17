@@ -1,5 +1,4 @@
-import { ReactNode, useEffect } from 'react'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import {
   Box,
   Flex,
@@ -16,7 +15,8 @@ import {
   useColorModeValue,
   Stack,
 } from '@chakra-ui/react'
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
+import { useSession, signIn, signOut } from 'next-auth/react'
+import { ReactNode, useEffect } from 'react'
 import { ColourMode } from 'components/colourMode'
 
 const Links = [{ label: 'Past Events', url: '/events' }]

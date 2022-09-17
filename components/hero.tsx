@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import {
   Flex,
   Heading,
@@ -6,6 +5,7 @@ import {
   useBreakpointValue,
   useColorMode,
 } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
 import { Bout } from 'components/bout'
 import type { MainCard } from 'shared/event'
 

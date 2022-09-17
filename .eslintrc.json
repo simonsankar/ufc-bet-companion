@@ -19,6 +19,10 @@
     "import/order": [
       "error",
       {
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": false
+        },
         "groups": [
           "builtin",
           "external",

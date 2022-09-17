@@ -5,7 +5,7 @@ import { checkUserExists } from 'pages/api/users'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
-  data: Bet | null
+  data: Bet | Bet[] | null
   errors: string[]
 }
 const DEFAULT_BUDGET_AMOUNT = 1000
@@ -93,18 +93,19 @@ const upsertEventUserBudget = async (
   }
 }
 
-const getBet = async (
-  eventId: string,
-  fightId: string,
-  userEmail: string
-): Promise<Data> => {
+const getBets = async (eventId: string, fightId: string) => {
   try {
-    const bet = await prisma.bet.findUnique({
+    const bet = await prisma.bet.findMany({
       where: {
-        eventId_fightId_userEmail: {
-          eventId,
-          fightId,
-          userEmail,
+        eventId,
+        fightId,
+      },
+      include: {
+        User: {
+          select: {
+            name: true,
+            image: true,
+          },
         },
       },
     })
@@ -229,7 +230,6 @@ export default async function handler(
   // res.end()
 
   const { query, method, body } = req
-
   const { eventId, fightId } = query
   const { userEmail, wager, corner } = body
 
@@ -241,7 +241,7 @@ export default async function handler(
   let betData: Data = { data: null, errors: [] }
   switch (method) {
     case 'GET':
-      betData = await getBet(eventId.toString(), fightId.toString(), userEmail)
+      betData = await getBets(eventId.toString(), fightId.toString())
       res.status(200).json(betData)
     case 'PUT':
       betData = await upsertBet(

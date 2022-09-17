@@ -1,3 +1,5 @@
+import { Bet, Event } from '@prisma/client'
+
 export type MainCard = {
   id: string
   title: string
@@ -30,4 +32,13 @@ export type Fight = {
     flag: string
     photo: string
   }
+}
+
+type FightBets = {
+  fightId: string
+  bets: Bet[]
+}
+export type EventBets = {
+  eventId: Event['id']
+  fightsBets: FightBets[]
 }

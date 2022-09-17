@@ -25,7 +25,7 @@ import {
   AlertIcon,
   AlertTitle,
 } from '@chakra-ui/react'
-import { Bet, Corner } from '@prisma/client'
+import { Bet } from '@prisma/client'
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
 import { Fight } from '../shared/event'
 

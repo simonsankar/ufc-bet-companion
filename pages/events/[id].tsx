@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext, NextPage, NextPageContext } from 'next'
+import { GetServerSidePropsContext, NextPage } from 'next'
 import { getCardByEventId } from '../../data/event'
 import { MainCard } from '../../shared/event'
 import { Hero } from '../../components/hero'

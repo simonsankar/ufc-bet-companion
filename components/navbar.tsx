@@ -16,7 +16,7 @@ import {
   useColorModeValue,
   Stack,
 } from '@chakra-ui/react'
-import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { ColourMode } from './colourMode'
 
 const Links = [{ label: 'Past Events', url: '/events' }]

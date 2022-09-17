@@ -2,14 +2,9 @@ import { useEffect, useState } from 'react'
 import {
   Flex,
   Heading,
-  Divider,
   Text,
-  Image,
   useColorMode,
-  Box,
   useBreakpointValue,
-  color,
-  Badge,
 } from '@chakra-ui/react'
 import { Bout } from './bout'
 import { MainCard } from '../shared/event'

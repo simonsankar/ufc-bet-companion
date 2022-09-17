@@ -73,6 +73,7 @@ export const Bout: React.FC<BoutProps> = (props) => {
                 )}
               </Flex>
               <Heading
+                zIndex={1}
                 width="255px"
                 size="md"
                 textTransform="uppercase"
@@ -95,6 +96,7 @@ export const Bout: React.FC<BoutProps> = (props) => {
             {/* Blue Corner */}
             <Flex>
               <Heading
+                zIndex={1}
                 width="255px"
                 size="md"
                 textTransform="uppercase"

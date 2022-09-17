@@ -15,7 +15,7 @@ const Home: NextPage<MainCard> = (props) => {
 export default Home
 
 export const getServerSideProps = async () => {
-  const mainCard = await upsertCurrentEvent('ufc-279')
+  const mainCard = await upsertCurrentEvent()
 
   return {
     props: mainCard,

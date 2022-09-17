@@ -1,6 +1,6 @@
-import { useSession } from 'next-auth/react'
 import React from 'react'
-import { MainLayout } from '../../components/layouts'
+import { useSession } from 'next-auth/react'
+import { MainLayout } from 'components/layouts'
 
 const EventsPage = () => {
   const session = useSession()

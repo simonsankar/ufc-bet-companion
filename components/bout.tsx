@@ -1,33 +1,33 @@
 import React, { useState } from 'react'
-import { useSession } from 'next-auth/react'
+import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
 import {
-  Flex,
-  Heading,
-  Badge,
-  Divider,
-  Box,
-  Text,
-  Image,
   Accordion,
-  AccordionItem,
   AccordionButton,
   AccordionIcon,
+  AccordionItem,
   AccordionPanel,
-  useColorMode,
-  Button,
-  NumberInput,
-  NumberInputField,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInputStepper,
   Alert,
   AlertDescription,
   AlertIcon,
   AlertTitle,
+  Badge,
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Heading,
+  Image,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Text,
+  useColorMode,
 } from '@chakra-ui/react'
 import { Bet } from '@prisma/client'
-import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
-import { Fight } from '../shared/event'
+import { useSession } from 'next-auth/react'
+import type { Fight } from 'shared/event'
 
 const FLAG_URL = 'https://www.ufc.com/themes/custom/ufc/assets/img/flags/'
 

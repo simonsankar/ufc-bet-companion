@@ -1,40 +1,35 @@
 {
   "extends": "next/core-web-vitals",
   "plugins": [
-    "unused-imports",
     "@typescript-eslint/eslint-plugin",
-    "no-relative-import-paths",
-    "simple-import-sort"
+    "unused-imports",
+    "eslint-plugin-import",
+    "no-relative-import-paths"
   ],
   "rules": {
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+
+    "@typescript-eslint/no-unused-vars": ["error", { "args": "none" }],
+
+    "unused-imports/no-unused-imports": "error",
     "no-relative-import-paths/no-relative-import-paths": [
       "warn",
-      { "allowSameFolder": true, "rootDir": "src" }
+      { "allowSameFolder": true }
     ],
-    "unused-imports/no-unused-imports": "error",
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "error",
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error"
-  },
-  "overrides": [
-    {
-      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
-      "rules": {
-        "simple-import-sort/imports": [
-          "error",
-          {
-            "groups": [
-              ["^react", "^@?\\w"],
-              ["^(@|components)(/.*|$)"],
-              ["^\\u0000"],
-              ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
-              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
-              ["^.+\\.?(css)$"]
-            ]
-          }
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type"
         ]
       }
-    }
-  ]
+    ]
+  }
 }

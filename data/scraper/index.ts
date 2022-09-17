@@ -1,5 +1,5 @@
 import { load } from 'cheerio'
-import { Fight, MainCard } from '../../shared/event'
+import type { Fight, MainCard } from 'shared/event'
 
 export const getMainCard = async (eventId?: string): Promise<MainCard> => {
   const resp = await fetch('https://www.ufc.com/events')

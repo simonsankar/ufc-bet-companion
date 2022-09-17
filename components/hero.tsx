@@ -3,11 +3,11 @@ import {
   Flex,
   Heading,
   Text,
-  useColorMode,
   useBreakpointValue,
+  useColorMode,
 } from '@chakra-ui/react'
-import { Bout } from './bout'
-import { MainCard } from '../shared/event'
+import { Bout } from 'components/bout'
+import type { MainCard } from 'shared/event'
 
 const overLayGradients = {
   dark: `linear-gradient(180deg, #30333633 0, #303336)`,

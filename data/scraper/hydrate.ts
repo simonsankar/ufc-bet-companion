@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { getMainCard } from '.'
-import { Fight, MainCard } from '../../shared/event'
+import { Fight, MainCard } from 'shared/event'
 
 const prisma = new PrismaClient()
 

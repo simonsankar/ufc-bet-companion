@@ -1,4 +1,4 @@
-import { upsertCurrentEvent } from './hydrate'
+import { upsertCurrentEvent } from 'data/scraper/hydrate'
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 

@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
 import { Bet } from '@prisma/client'
-import { prisma } from '../../../../../data/db'
-import { checkUserExists } from '../../../users'
+import { prisma } from 'data/db'
+import { checkUserExists } from 'pages/api/users'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
   data: Bet | null

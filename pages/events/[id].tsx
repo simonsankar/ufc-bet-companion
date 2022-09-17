@@ -1,8 +1,8 @@
 import { GetServerSidePropsContext, NextPage } from 'next'
-import { getCardByEventId } from '../../data/event'
-import { MainCard } from '../../shared/event'
-import { Hero } from '../../components/hero'
-import { MainLayout } from '../../components/layouts'
+import { getCardByEventId } from 'data/event'
+import { Hero } from 'components/hero'
+import { MainLayout } from 'components/layouts'
+import { MainCard } from 'shared/event'
 
 const EventPage: NextPage<MainCard> = (props) => {
   return (

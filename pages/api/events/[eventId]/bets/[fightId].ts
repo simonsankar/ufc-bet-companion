@@ -8,6 +8,7 @@ type Data = {
   data: Bet | null
   errors: string[]
 }
+const DEFAULT_BUDGET_AMOUNT = 1000
 
 const checkEventFightExists = async (
   eventId: string,
@@ -25,6 +26,70 @@ const checkEventFightExists = async (
     return eventFight !== null
   } catch (e) {
     return false
+  }
+}
+
+const checkEventUserBudgetExists = async (
+  eventId: string,
+  userEmail: string
+): Promise<null | boolean> => {
+  try {
+    const budget = await prisma.budget.findUnique({
+      where: {
+        eventId_userEmail: {
+          eventId,
+          userEmail,
+        },
+      },
+    })
+
+    return budget !== null
+  } catch (e) {
+    return false
+  }
+}
+
+const getEventUserBudget = async (eventId: string, userEmail: string) => {
+  try {
+    const budget = await prisma.budget.findUnique({
+      where: {
+        eventId_userEmail: {
+          eventId,
+          userEmail,
+        },
+      },
+    })
+    return budget
+  } catch (e) {
+    return null
+  }
+}
+
+const upsertEventUserBudget = async (
+  eventId: string,
+  userEmail: string,
+  balance: number
+) => {
+  try {
+    const budget = prisma.budget.upsert({
+      create: {
+        eventId,
+        userEmail,
+        balance: balance,
+      },
+      update: {
+        balance,
+      },
+      where: {
+        eventId_userEmail: {
+          eventId,
+          userEmail,
+        },
+      },
+    })
+    return budget
+  } catch (e) {
+    return null
   }
 }
 
@@ -70,34 +135,78 @@ const upsertBet = async (
   }
 
   try {
-    // Ensure user has a valid event budget
+    // User has an existing budget: can/cannot upsert bet due to balance
+    if (await checkEventUserBudgetExists(eventId, userEmail)) {
+      const budget = await getEventUserBudget(eventId, userEmail)
+      if (budget && wager <= budget?.balance) {
+        // Upsert bet
+        const bet = await prisma.bet.upsert({
+          create: {
+            eventId,
+            fightId,
+            userEmail,
+            wager,
+            corner,
+          },
+          update: {
+            eventId,
+            fightId,
+            userEmail,
+            wager,
+            corner,
+          },
+          where: {
+            eventId_fightId_userEmail: {
+              eventId,
+              fightId,
+              userEmail,
+            },
+          },
+        })
 
-    // Upsert bet
-    const bet = await prisma.bet.upsert({
-      create: {
-        eventId,
-        fightId,
-        userEmail,
-        wager,
-        corner,
-      },
-      update: {
-        eventId,
-        fightId,
-        userEmail,
-        wager,
-        corner,
-      },
-      where: {
-        eventId_fightId_userEmail: {
+        // Get all event wages and upsert budget with new balance
+        const allEventWagersByUser = await prisma.bet.findMany({
+          select: {
+            wager: true,
+          },
+          where: {
+            eventId,
+            userEmail,
+          },
+        })
+        const allWagers = allEventWagersByUser
+          .map((val) => val.wager)
+          .reduce((prev, curr) => prev + curr)
+
+        upsertEventUserBudget(
           eventId,
-          fightId,
           userEmail,
-        },
+          DEFAULT_BUDGET_AMOUNT - allWagers
+        )
+
+        return { data: bet, errors: [] }
+      }
+      return {
+        data: null,
+        errors: [`Wager ${wager} is more than your balance ${budget?.balance}`],
+      }
+    }
+
+    // User has no existing budget: make bet and initialize budget
+    const bet = await prisma.bet.create({
+      data: {
+        eventId,
+        fightId,
+        userEmail,
+        wager,
+        corner,
       },
     })
-
-    // Update balance on budget
+    await upsertEventUserBudget(
+      eventId,
+      userEmail,
+      DEFAULT_BUDGET_AMOUNT - wager
+    )
 
     return { data: bet, errors: [] }
   } catch (e) {

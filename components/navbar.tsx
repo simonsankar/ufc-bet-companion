@@ -14,6 +14,7 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  Text,
 } from '@chakra-ui/react'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import { ReactNode, useEffect } from 'react'
@@ -54,7 +55,11 @@ export const NavBar = () => {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Box textTransform="uppercase">Bet Companion</Box>
+            <NavLink key={'home'} url={'/'}>
+              <Text fontFamily={'Montserrat'} fontWeight="bold">
+                Bet Companion
+              </Text>
+            </NavLink>
             <HStack
               as={'nav'}
               spacing={4}

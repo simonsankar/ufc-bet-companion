@@ -72,17 +72,22 @@ export const Bout: React.FC<BoutProps> = (props) => {
                   </Box>
                 )}
               </Flex>
-              <Heading
-                zIndex={1}
-                width="255px"
-                size="md"
-                textTransform="uppercase"
-                textAlign="left"
-              >
-                {fight.redCorner.firstName} {fight.redCorner.lastName}
-              </Heading>
+              <Flex zIndex={1} flexDir="column" alignItems="start" gap="2">
+                <Heading
+                  width="255px"
+                  size="md"
+                  textTransform="uppercase"
+                  textAlign="left"
+                >
+                  {fight.redCorner.firstName} {fight.redCorner.lastName}
+                </Heading>
+                {fight.redCorner.outcome === 'Win' && (
+                  <Badge fontSize="lg" variant="solid" colorScheme="red">
+                    Win
+                  </Badge>
+                )}
+              </Flex>
             </Flex>
-            {/* Names */}
             <Flex>
               <Heading
                 flex={4}
@@ -95,15 +100,22 @@ export const Bout: React.FC<BoutProps> = (props) => {
             </Flex>
             {/* Blue Corner */}
             <Flex>
-              <Heading
-                zIndex={1}
-                width="255px"
-                size="md"
-                textTransform="uppercase"
-                textAlign="right"
-              >
-                {fight.blueCorner.firstName} {fight.blueCorner.lastName}
-              </Heading>
+              <Flex flexDir="column" alignItems="end" gap="2">
+                <Heading
+                  zIndex={1}
+                  width="255px"
+                  size="md"
+                  textTransform="uppercase"
+                  textAlign="right"
+                >
+                  {fight.blueCorner.firstName} {fight.blueCorner.lastName}
+                </Heading>
+                {fight.blueCorner.outcome === 'Win' && (
+                  <Badge fontSize="lg" variant="solid" colorScheme="red">
+                    Win
+                  </Badge>
+                )}
+              </Flex>
               <Flex position="relative" flexDir="column" alignItems="end">
                 <Image
                   src={fight.blueCorner.photo}
